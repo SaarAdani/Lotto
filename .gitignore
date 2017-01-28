@@ -1,12 +1,93 @@
-*.class
+package com.saar;
 
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
+import java.util.Random;
 
-# Package Files #
-*.jar
-*.war
-*.ear
+public class Main {
 
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-hs_err_pid*
+    public static int[] myLottoCard = {3, 15, 22, 7, 36, 19};
+    public static int myExtra = 4;
+
+    public static int[] lottoryDraw = new int[6];
+    public static int extraDraw;
+
+    public static Random random = new Random();
+
+    public static void main(String[] args) {
+
+        generateNewLotto(lottoryDraw);
+        System.out.println("This Weeks Numbers Are: ");
+        isNumberDouble(lottoryDraw);
+        printArray(lottoryDraw);
+        extraDraw = generateRandomNumber(8);
+        System.out.println(" And The Extra Number Is: " + extraDraw);
+        System.out.println("You Have " + rightGuesses(lottoryDraw,myLottoCard) + " Right Guesses");
+        checkExtra();
+
+    }
+
+    public static int generateRandomNumber(int max) {
+
+        return random.nextInt(max) + 1;
+    }
+
+    public static void printArray(int[] x) {
+
+        System.out.print("[");
+        for (int i = 0; i < x.length; i++) {
+            System.out.print(x[i]);
+            if (i < x.length - 1) {
+                System.out.print(",");
+            }
+        }
+        System.out.print("]");
+    }
+
+    public static int[] generateNewLotto(int[] x) {
+
+        for (int i = 0; i < x.length; i++) {
+            x[i] = generateRandomNumber(36);
+        }
+        return x;
+    }
+
+    public static int[] isNumberDouble(int[] x) {
+
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < x.length; j++) {
+                if (i != j) {
+                    if (x[i] == x[j]) {
+                        x[i] = generateRandomNumber(36);
+                        j=0;
+                    }
+                }
+            }
+
+        }
+        return x;
+    }
+
+    public static int rightGuesses (int [] x, int [] y) {
+
+        int counter = 0;
+
+        for (int i = 0; i < x.length; i++) {
+            for (int j = 0; j < y.length; j++) {
+                if (x[i] == y[j]) {
+                    counter++;
+                }
+            }
+        }
+        return counter;
+    }
+
+    public static void checkExtra () {
+
+        if (myExtra == extraDraw) {
+            System.out.println("And you Got The Extra Number Right!!");
+        }
+        else {
+            System.out.println("And you Got The Extra Number Wrong...");
+        }
+    }
+}
+
